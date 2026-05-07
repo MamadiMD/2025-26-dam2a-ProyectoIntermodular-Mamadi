@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class DominoManager : MonoBehaviour
 {
@@ -306,10 +307,12 @@ public class DominoManager : MonoBehaviour
         if (manoJugador.Count == 0)
         {
             FinalizarPartida("¡FELICIDADES! HAS GANADO");
+            StartCoroutine(GanaJugadorPartida());
         }
         else if (manoCPU.Count == 0)
         {
             FinalizarPartida("LA CPU HA GANADO... INTÉNTALO DE NUEVO");
+            StartCoroutine(GanaCpuPartida());
         }
         // 2. Comprobar si el juego se ha trabado (nadie puede jugar y mazo vacío)
         else if (pozo.Count == 0 && !TieneJugadaPosible(manoJugador) && !TieneJugadaPosible(manoCPU))
@@ -356,5 +359,20 @@ public class DominoManager : MonoBehaviour
         StopAllCoroutines(); 
 
         Debug.Log("Juego Detenido.");
+    }
+
+    IEnumerator GanaJugadorPartida()
+    {
+        GameManager.instance.GanaJugador();
+        yield return new WaitForSecondsRealtime(6f);
+        SceneManager.LoadScene(1);
+        
+    }
+
+    IEnumerator GanaCpuPartida()
+    {
+        GameManager.instance.GanaCPU();
+        yield return new WaitForSecondsRealtime(6f);
+        SceneManager.LoadScene(1);
     }
 }

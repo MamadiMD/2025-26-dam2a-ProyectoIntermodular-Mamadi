@@ -210,7 +210,7 @@ public class YishimaManager : MonoBehaviour
     IEnumerator GanaJugadorPartida()
     {
         GameManager.instance.GanaJugador();
-        yield return new WaitForSeconds(6.0f);
+        yield return new WaitForSecondsRealtime(6);
         SceneManager.LoadScene(1);
         
     }
@@ -218,7 +218,7 @@ public class YishimaManager : MonoBehaviour
     IEnumerator GanaCpuPartida()
     {
         GameManager.instance.GanaCPU();
-        yield return new WaitForSeconds(6.0f);
+        yield return new WaitForSecondsRealtime(6);
         SceneManager.LoadScene(1);
     }
 

@@ -12,6 +12,13 @@ public class OptionsController : MonoBehaviour
     public GameObject canvasDomino;
     public GameObject canvasBrisca;
     public GameObject canvasShisima;
+
+    public AudioSource audioDomino; 
+    public AudioSource audioAjedrez; 
+    public AudioSource audioDamas; 
+    public AudioSource audioShisima; 
+    public AudioSource audioBrisca; 
+    public AudioSource audioGeneral; 
     public void VolverMenu()
     {
         audioClick.Play();
@@ -37,6 +44,8 @@ public class OptionsController : MonoBehaviour
     {
         audioClick.Play();
         canvasAjedrez.SetActive(false);
+        audioAjedrez.Pause();
+        audioGeneral.Play();
     }
 
     public void JugarAjedrez()
@@ -49,6 +58,8 @@ public class OptionsController : MonoBehaviour
     {
         audioClick.Play();
         canvasAjedrez.SetActive(true);
+        audioGeneral.Pause();
+        audioAjedrez.Play();
     }
 
     // Damas Options
@@ -56,6 +67,8 @@ public class OptionsController : MonoBehaviour
     {
         audioClick.Play();
         canvasDamas.SetActive(false);
+        audioDamas.Pause();
+        audioGeneral.Play();
     }
 
     public void JugarDamas()
@@ -68,6 +81,8 @@ public class OptionsController : MonoBehaviour
     {
         audioClick.Play();
         canvasDamas.SetActive(true);
+        audioGeneral.Pause();
+        audioDamas.Play();
     }
 
     // Domino Options
@@ -75,6 +90,8 @@ public class OptionsController : MonoBehaviour
     {
         audioClick.Play();
         canvasDomino.SetActive(false);
+        audioDomino.Pause();
+        audioGeneral.Play();
     }
 
     public void JugarDomino()
@@ -87,6 +104,8 @@ public class OptionsController : MonoBehaviour
     {
         audioClick.Play();
         canvasDomino.SetActive(true);
+        audioGeneral.Pause();
+        audioDomino.Play();
     }
 
     // Brisca Options
@@ -95,6 +114,8 @@ public class OptionsController : MonoBehaviour
     {
         audioClick.Play();
         canvasBrisca.SetActive(false);
+        audioBrisca.Pause();
+        audioGeneral.Play();
     }
 
     public void JugarBrisca()
@@ -107,6 +128,8 @@ public class OptionsController : MonoBehaviour
     {
         audioClick.Play();
         canvasBrisca.SetActive(true);
+        audioGeneral.Pause();
+        audioBrisca.Play();
     }
 
     // Shisima options
@@ -114,6 +137,8 @@ public class OptionsController : MonoBehaviour
     {
         audioClick.Play();
         canvasShisima.SetActive(false);
+        audioShisima.Pause();
+        audioGeneral.Play();
     }
 
     public void JugarShisima()
@@ -126,5 +151,7 @@ public class OptionsController : MonoBehaviour
     {
         audioClick.Play();
         canvasShisima.SetActive(true);
+        audioGeneral.Pause();
+        audioShisima.Play();
     }
 }
