@@ -10,6 +10,11 @@ public class GameManager : MonoBehaviour
     public int puntosCPU = 0;
     public int puntosParaGanar = 3;
 
+    [Header("UI Final")]
+    public bool mostrarFinal = false;
+    public string mensajeFinal = "";
+    public bool Victoria = false;
+
     void Awake()
     {
         // Singleton
@@ -23,6 +28,7 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
 
     public void GanaJugador()
     {
@@ -41,15 +47,21 @@ public class GameManager : MonoBehaviour
     {
         if (puntosJugador >= puntosParaGanar)
         {
-            SceneManager.LoadScene("VictoriaJugador");
+            mensajeFinal = "¡¡VICTORIA!!\nHA GANADO EL JUGADOR LA PARTIDA\n" 
+                         + puntosJugador + " - " + puntosCPU;
+
+            mostrarFinal = true;
+
+            SceneManager.LoadScene(1); // tu escena principal
         }
         else if (puntosCPU >= puntosParaGanar)
         {
-            SceneManager.LoadScene("VictoriaCPU");
-        }
-        else
-        {
-            SceneManager.LoadScene(1);
+            mensajeFinal = "DERROTA\nHA GANADO LA CPU LA PARTIDA\n" 
+                         + puntosJugador + " - " + puntosCPU;
+
+            mostrarFinal = true;
+
+            SceneManager.LoadScene(1); // tu escena principal
         }
     }
 
@@ -58,4 +70,5 @@ public class GameManager : MonoBehaviour
         puntosJugador = 0;
         puntosCPU = 0;
     }
+
 }
