@@ -173,15 +173,6 @@ public class DominoManager : MonoBehaviour
         }
     }
 
-    private void PosicionarFichaEnMesa(LogicaFicha ficha, bool esPrimera)
-    {
-        // Desactivamos interacción
-        if(ficha.TryGetComponent(out FichaInteractiva fi)) Destroy(fi);
-        
-        Debug.Log("Ficha colocada en mesa. Extremos: " + extremoIzquierdo + " | " + extremoDerecho);
-        
-        // Aquí conectaremos con la Opción 1 (Puntos de anclaje)
-    }
 
     private void PosicionarEnAncla(LogicaFicha ficha, Transform punto, bool esHorizontal, bool invertir)
     {

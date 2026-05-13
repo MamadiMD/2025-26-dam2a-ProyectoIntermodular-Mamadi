@@ -28,10 +28,9 @@ public class OptionsController : MonoBehaviour
 
     public void Reiniciar()
     {
-        GameManager.instance.ResetearPuntuacion();
         audioClick.Play();
-        int escenaActual = SceneManager.GetActiveScene().buildIndex;
-        SceneManager.LoadScene(escenaActual);
+        GameManager.instance.NuevaPartida();
+        
     }
 
     public void CerrarOpciones()

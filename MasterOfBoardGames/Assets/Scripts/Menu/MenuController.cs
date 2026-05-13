@@ -6,17 +6,9 @@ using UnityEngine.SceneManagement;
 public class MenuController : MonoBehaviour
 {
     public GameObject canvasMenu;
-    public GameObject canvasJugar;
     public GameObject canvasOpciones;
     public AudioSource audioClick;
 
-    // Botón jugar desde el menu inicial
-    public void IrAJugar()
-    {
-        audioClick.Play();
-        canvasMenu.SetActive(false);
-        canvasJugar.SetActive(true);
-    }
 
     // Botón opciones desde el menu inicial
     public void IrAOpcionesMenu()
@@ -26,28 +18,12 @@ public class MenuController : MonoBehaviour
         canvasOpciones.SetActive(true);
     }
 
-    // Botón opciones desde el menu inicial
-    public void IrAOpcionesJugar()
+    public void CerrarOpciones()
     {
         audioClick.Play();
-        canvasJugar.SetActive(false);
-        canvasOpciones.SetActive(true);
-    }
-
-    // Volver al menú
-    public void VolverMenu()
-    {
-        audioClick.Play();
-        canvasJugar.SetActive(false);
         canvasOpciones.SetActive(false);
         canvasMenu.SetActive(true);
-    }
-
-    // Iniciar una nueva partida
-    public void NuevaPartida()
-    {
-        int escenaActual = SceneManager.GetActiveScene().buildIndex;
-        SceneManager.LoadScene(escenaActual + 1);
+        
     }
 
     // Botón Salir
@@ -56,5 +32,11 @@ public class MenuController : MonoBehaviour
         audioClick.Play();
         Application.Quit();
         Debug.Log("Saliendo del juego"); // útil en el editor
+    }
+
+    public void Jugar()
+    {
+        audioClick.Play();
+        SceneManager.LoadScene(1);
     }
 }

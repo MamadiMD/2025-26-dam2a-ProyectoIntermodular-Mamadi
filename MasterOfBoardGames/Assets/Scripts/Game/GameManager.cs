@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour
         {
             instance = this;
             DontDestroyOnLoad(gameObject);
+            CargarPartida();
         }
         else
         {
@@ -33,12 +34,14 @@ public class GameManager : MonoBehaviour
     public void GanaJugador()
     {
         puntosJugador++;
+        GuardarPartida();
         ComprobarGanador();
     }
 
     public void GanaCPU()
     {
         puntosCPU++;
+        GuardarPartida();
         ComprobarGanador();
     }
 
@@ -52,7 +55,8 @@ public class GameManager : MonoBehaviour
 
             mostrarFinal = true;
 
-            SceneManager.LoadScene(1); // tu escena principal
+            BorrarDatosGuardados();
+            SceneManager.LoadScene(1); 
         }
         else if (puntosCPU >= puntosParaGanar)
         {
@@ -60,8 +64,9 @@ public class GameManager : MonoBehaviour
                          + puntosJugador + " - " + puntosCPU;
 
             mostrarFinal = true;
-
-            SceneManager.LoadScene(1); // tu escena principal
+            
+            BorrarDatosGuardados();
+            SceneManager.LoadScene(1); 
         }
     }
 
@@ -69,6 +74,42 @@ public class GameManager : MonoBehaviour
     {
         puntosJugador = 0;
         puntosCPU = 0;
+    }
+
+    public void GuardarPartida()
+    {
+        PlayerPrefs.SetInt("PuntosJugador", puntosJugador);
+        PlayerPrefs.SetInt("PuntosCPU", puntosCPU);
+
+        PlayerPrefs.Save();
+
+        Debug.Log("Partida guardada");
+    }
+
+    public void CargarPartida()
+    {
+        puntosJugador = PlayerPrefs.GetInt("PuntosJugador", 0);
+        puntosCPU = PlayerPrefs.GetInt("PuntosCPU", 0);
+
+        Debug.Log("Partida cargada");
+    }
+
+
+    public void NuevaPartida()
+    {
+        ResetearPuntuacion();
+    
+        PlayerPrefs.DeleteKey("PuntosJugador");
+        PlayerPrefs.DeleteKey("PuntosCPU");
+    
+        SceneManager.LoadScene(1);
+    }
+
+    public void BorrarDatosGuardados()
+    {
+        PlayerPrefs.DeleteKey("PuntosJugador");
+        PlayerPrefs.DeleteKey("PuntosCPU");
+        ResetearPuntuacion();
     }
 
 }
