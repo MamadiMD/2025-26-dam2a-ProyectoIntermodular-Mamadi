@@ -153,25 +153,99 @@ public class YishimaManager : MonoBehaviour
         yield return new WaitForSeconds(tiempoEsperaIA);
 
         List<PiezaYishima> piezasIA = obtenerPiezas(false);
+        Nodo nodoCentro = todosLosNodos[8]; // El centro suele ser el último en la lista
+        
+        PiezaYishima piezaAEjecutar = null;
+        Nodo nodoDestinoAEjecutar = null;
 
-        // 1. Buscar movimientos (Prioridad: Movimiento válido aleatorio por ahora)
-
-        bool movio = false;
+        // PASO 1: ¿PUEDO GANAR? 
         foreach (PiezaYishima p in piezasIA)
         {
             foreach (Nodo vecino in p.nodoActual.vecinos)
             {
                 if (!vecino.ocupado)
                 {
-                    // La IA elige esta pieza y este nodo
-                    piezaSeleccionada = p;
-                    IntentarMovimiento(vecino);
-                    movio = true;
+                    // Simulamos el movimiento temporalmente para ver si ganaría
+                    if (SimularVictoriaIA(vecino))
+                    {
+                        piezaAEjecutar = p;
+                        nodoDestinoAEjecutar = vecino;
+                        break;
+                    }
+                }
+            }
+            if (piezaAEjecutar != null) break;
+        }
+
+        // PASO 2: SI NO PUEDO GANAR, ¿PUEDO IR AL CENTRO? 
+        if (piezaAEjecutar == null && !nodoCentro.ocupado)
+        {
+            foreach (PiezaYishima p in piezasIA)
+            {
+                if (p.nodoActual.vecinos.Contains(nodoCentro))
+                {
+                    piezaAEjecutar = p;
+                    nodoDestinoAEjecutar = nodoCentro;
                     break;
                 }
             }
-            if (movio) break;
         }
+
+        // PASO 3: MOVIMIENTO POR DEFECTO (EL PRIMERO QUE VEA) 
+        if (piezaAEjecutar == null)
+        {
+            foreach (PiezaYishima p in piezasIA)
+            {
+                foreach (Nodo vecino in p.nodoActual.vecinos)
+                {
+                    if (!vecino.ocupado)
+                    {
+                        piezaAEjecutar = p;
+                        nodoDestinoAEjecutar = vecino;
+                        break;
+                    }
+                }
+                if (piezaAEjecutar != null) break;
+            }
+        }
+
+        // EJECUTAR EL MOVIMIENTO ELEGIDO
+        if (piezaAEjecutar != null && nodoDestinoAEjecutar != null)
+        {
+            piezaSeleccionada = piezaAEjecutar;
+            IntentarMovimiento(nodoDestinoAEjecutar);
+        }
+    }
+
+    bool SimularVictoriaIA(Nodo nodoDestino)
+    {
+        Nodo centro = todosLosNodos[8];
+        
+        // Si el movimiento no es al centro, y el centro no lo tenemos nosotros, es imposible ganar en este turno
+        if (nodoDestino != centro)
+        {
+            if (!centro.ocupado || centro.piezaActual.GetComponent<PiezaYishima>().esJugador1) 
+                return false;
+        }
+
+        // Comprobamos si el movimiento completaría una de las líneas (0-5, 1-6, 2-7, 4-3)
+        int[,] parejas = { {0, 5}, {1, 6}, {2, 7}, {4, 3} };
+        for (int i = 0; i < 4; i++)
+        {
+            Nodo nA = todosLosNodos[parejas[i, 0]];
+            Nodo nB = todosLosNodos[parejas[i, 1]];
+
+            if (nodoDestino == nA && nB.ocupado && !nB.piezaActual.GetComponent<PiezaYishima>().esJugador1) return true;
+            if (nodoDestino == nB && nA.ocupado && !nA.piezaActual.GetComponent<PiezaYishima>().esJugador1) return true;
+            
+            // Si el destino es el centro, ganamos si el extremo A y B son nuestros
+            if (nodoDestino == centro)
+            {
+                if (nA.ocupado && !nA.piezaActual.GetComponent<PiezaYishima>().esJugador1 &&
+                    nB.ocupado && !nB.piezaActual.GetComponent<PiezaYishima>().esJugador1) return true;
+            }
+        }
+        return false;
     }
 
     List<PiezaYishima> obtenerPiezas(bool esJ1)
