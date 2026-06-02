@@ -7,8 +7,7 @@ public class GameController : MonoBehaviour
     [Header("UI del Juego")]
     public Button[] casillas;
     public TextMeshPro textoTurno;
-    public Button botonReiniciar;
-    public AudioSource audioClick;
+
 
     private string turnoActual = "X"; 
     private bool juegoTerminado = false;
@@ -16,7 +15,50 @@ public class GameController : MonoBehaviour
 
     void Start()
     {
-        
+        ConfigurarBotonesDelTablero();
+
+        ActualizarTextoPantalla("Turno de: " + turnoActual);
+    }
+    void ConfigurarBotonesDelTablero()
+    {
+        for (int i = 0; i < casillas.Length; i++)
+        {
+            int indiceCasilla = i; // Guardamos la posición fija de este botón (0 al 8)
+            casillas[indiceCasilla].GetComponentInChildren<TextMeshProUGUI>().text = "";
+
+            // Cuando pinchen en esta casilla, llamamos al método encargado de procesar la jugada
+            casillas[indiceCasilla].onClick.AddListener(() => EnCasillaClick(indiceCasilla));
+        }
+    }
+
+    void EnCasillaClick(int indice)
+    {
+        // 1. Validar si se puede jugar en esa casilla
+        string textoEnCasilla = casillas[indice].GetComponentInChildren<TextMeshProUGUI>().text;
+        if (juegoTerminado || textoEnCasilla != "") return; 
+
+        // 2. Marcar la jugada de forma visual
+        casillas[indice].GetComponentInChildren<TextMeshProUGUI>().text = turnoActual;
+        totalJugadas++;
+
+        // 3. Comprobar si esta jugada ha hecho ganar a alguien
+        if (ComprobarSiHayGanador())
+        {
+            ActualizarTextoPantalla("¡Ganador: " + turnoActual + "!");
+            juegoTerminado = true;
+            return;
+        }
+
+        // 4. Comprobar si nos hemos quedado sin casillas (Empate)
+        if (totalJugadas == 9)
+        {
+            ActualizarTextoPantalla("¡Empate!");
+            juegoTerminado = true;
+            return;
+        }
+
+        // 5. Si nadie ganó ni empató, pasamos el turno al siguiente
+        CambiarTurno();
     }
 
     bool ComprobarSiHayGanador()
