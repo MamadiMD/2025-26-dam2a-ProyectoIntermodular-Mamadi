@@ -1,12 +1,13 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
     [Header("UI del Juego")]
     public Button[] casillas;
-    public TextMeshPro textoTurno;
+    public TextMeshProUGUI textoTurno;
 
 
     private string turnoActual = "X"; 
@@ -46,6 +47,7 @@ public class GameController : MonoBehaviour
         {
             ActualizarTextoPantalla("¡Ganador: " + turnoActual + "!");
             juegoTerminado = true;
+            SceneManager.LoadScene(1);
             return;
         }
 
@@ -54,6 +56,7 @@ public class GameController : MonoBehaviour
         {
             ActualizarTextoPantalla("¡Empate!");
             juegoTerminado = true;
+            SceneManager.LoadScene(1);
             return;
         }
 

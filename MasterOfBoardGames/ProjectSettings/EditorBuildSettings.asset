@@ -26,4 +26,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Yishima.unity
     guid: 242885cd0b8ccf34c93ea40abd94042e
+  - enabled: 1
+    path: Assets/Scenes/TresEnRaya.unity
+    guid: d7b919b466ce583489dd8f04d6277ec3
   m_configObjects: {}

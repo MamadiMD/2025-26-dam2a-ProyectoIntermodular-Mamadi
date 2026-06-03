@@ -142,10 +142,12 @@ public class Game : MonoBehaviour
     if (winner == "EL JUGADOR")
     {
         GameManager.instance.GanaJugador();
+        SceneManager.LoadScene(1);
     }
     else if (winner == "LA CPU")
     {
         GameManager.instance.GanaCPU();
+        SceneManager.LoadScene(1);
     }
 }
 

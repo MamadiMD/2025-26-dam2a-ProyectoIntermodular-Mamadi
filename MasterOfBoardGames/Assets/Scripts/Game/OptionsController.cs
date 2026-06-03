@@ -12,12 +12,14 @@ public class OptionsController : MonoBehaviour
     public GameObject canvasDomino;
     public GameObject canvasBrisca;
     public GameObject canvasShisima;
+    public GameObject canvasTresRaya;
 
     public AudioSource audioDomino; 
     public AudioSource audioAjedrez; 
     public AudioSource audioDamas; 
     public AudioSource audioShisima; 
     public AudioSource audioBrisca; 
+    public AudioSource audioTresRaya; 
     public AudioSource audioGeneral; 
     public void VolverMenu()
     {
@@ -160,5 +162,29 @@ public class OptionsController : MonoBehaviour
         canvasShisima.SetActive(true);
         audioGeneral.Pause();
         audioShisima.Play();
+    }
+
+    //Tres en Raya
+
+    public void CerrarTresRaya()
+    {
+        audioClick.Play();
+        canvasTresRaya.SetActive(false);
+        audioTresRaya.Pause();
+        audioGeneral.Play();
+    }
+
+    public void JugarTresRaya()
+    {
+        audioClick.Play();
+        SceneManager.LoadScene(7);
+    }
+
+    public void AbrirTresRaya()
+    {
+        audioClick.Play();
+        canvasTresRaya.SetActive(true);
+        audioGeneral.Pause();
+        audioTresRaya.Play();
     }
 }
